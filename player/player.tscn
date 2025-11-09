@@ -1,0 +1,67 @@
+[gd_scene load_steps=14 format=3 uid="uid://p3ukmayya1la"]
+
+[ext_resource type="Script" uid="uid://r5oicny2wxqk" path="res://player/player.gd" id="1_player"]
+[ext_resource type="Script" uid="uid://dbxb4vj8pmxym" path="res://player/player_config.gd" id="2_2ieo8"]
+[ext_resource type="Script" uid="uid://ljwrinsy5gt2" path="res://player/camera.gd" id="2_camera"]
+[ext_resource type="Script" uid="uid://b2ky3hfqpsbea" path="res://player/hands.gd" id="3_hands"]
+[ext_resource type="Script" uid="uid://dvcaceokfgipr" path="res://player/hand.gd" id="4_hand"]
+[ext_resource type="Script" uid="uid://s3hb1iebi45d" path="res://player/state_machine.gd" id="5_statemachine"]
+[ext_resource type="Script" uid="uid://cq2klmln2pa55" path="res://player/states/idle_state.gd" id="6_idle"]
+[ext_resource type="Script" uid="uid://dev8jvl6744e1" path="res://player/states/moving_state.gd" id="7_moving"]
+[ext_resource type="Script" uid="uid://drwe32b75ieco" path="res://player/states/jumping_state.gd" id="8_jumping"]
+[ext_resource type="Script" uid="uid://ci52o6uoosnrr" path="res://player/states/falling_state.gd" id="9_falling"]
+[ext_resource type="Script" uid="uid://gxy88oqrog14" path="res://player/input_buffer.gd" id="10_inputbuffer"]
+
+[sub_resource type="Resource" id="Resource_ebec5"]
+script = ExtResource("2_2ieo8")
+metadata/_custom_type_script = "uid://dbxb4vj8pmxym"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6adnx"]
+height = 1.8
+
+[node name="Player" type="CharacterBody3D" unique_id=1422290269]
+script = ExtResource("1_player")
+config = SubResource("Resource_ebec5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2092045832]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_6adnx")
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1907656401]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+script = ExtResource("2_camera")
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=849559250]
+
+[node name="Hands" type="Node3D" parent="CameraPivot" unique_id=972826378]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20000005, 0)
+script = ExtResource("3_hands")
+
+[node name="RightHand" type="Node3D" parent="CameraPivot/Hands" unique_id=146254102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, -0.75)
+script = ExtResource("4_hand")
+hand_name = "right_hand"
+
+[node name="LeftHand" type="Node3D" parent="CameraPivot/Hands" unique_id=81870409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, -0.75)
+script = ExtResource("4_hand")
+hand_name = "left_hand"
+
+[node name="StateMachine" type="Node" parent="." unique_id=1360904602 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_statemachine")
+initial_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="StateMachine" unique_id=1591090518]
+script = ExtResource("6_idle")
+
+[node name="MovingState" type="Node" parent="StateMachine" unique_id=602725962]
+script = ExtResource("7_moving")
+
+[node name="JumpingState" type="Node" parent="StateMachine" unique_id=706740584]
+script = ExtResource("8_jumping")
+
+[node name="FallingState" type="Node" parent="StateMachine" unique_id=1271287406]
+script = ExtResource("9_falling")
+
+[node name="InputBuffer" type="Node" parent="." unique_id=1810664460]
+script = ExtResource("10_inputbuffer")

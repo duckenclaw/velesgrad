@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://c0f5a6suc55dr"]
+
+[ext_resource type="PackedScene" uid="uid://p3ukmayya1la" path="res://player/player.tscn" id="1_uhqqe"]
+
+[sub_resource type="Environment" id="Environment_6adnx"]
+background_mode = 1
+background_color = Color(0.5241773, 0.8202268, 0.99999994, 1)
+ambient_light_color = Color(0.69803923, 0.7529412, 0.30588236, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_uhqqe"]
+size = Vector2(10, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ia1lp"]
+size = Vector3(10, 0.1, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uhqqe"]
+size = Vector3(1, 2, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ia1lp"]
+size = Vector3(1, 2, 0.25)
+
+[node name="TestScene" type="Node3D" unique_id=695216030]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1428814722]
+environment = SubResource("Environment_6adnx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=39262699]
+transform = Transform3D(0.8535534, 0.14644662, 0.5, -0.50000006, 0.50000006, 0.70710677, -0.14644663, -0.8535534, 0.5, 0, 0, 0)
+
+[node name="TestEnvironment" type="Node3D" parent="." unique_id=1376848579]
+
+[node name="Floor" type="StaticBody3D" parent="TestEnvironment" unique_id=1766420584]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestEnvironment/Floor" unique_id=1154444771]
+mesh = SubResource("PlaneMesh_uhqqe")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestEnvironment/Floor" unique_id=1780714107]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_ia1lp")
+
+[node name="Wall" type="StaticBody3D" parent="TestEnvironment" unique_id=1726183284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.2679653)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestEnvironment/Wall" unique_id=1571029866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_uhqqe")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestEnvironment/Wall" unique_id=1881339419]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_ia1lp")
+
+[node name="Player" parent="." unique_id=1422290269 instance=ExtResource("1_uhqqe")]
