@@ -1,0 +1,11 @@
+join test_character left
+test_character: hey, how u doin'?
+- good | [mood="good"]
+	set {mood} = "good"
+	test_character: That's good to hear! I, myself am in a good mood too.
+- bad
+	set {mood} = "bad"
+	test_character: Well that's too bad... I wish I could help you somehow but I'm really late to Numerology.
+	[signal arg="bad"]
+test_character: Well anyways, good to know you! See you around...
+[signal arg="dialogue_ended"]

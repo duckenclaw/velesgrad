@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnio22qs6s5yi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ieo8"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ebec5"]
+material = SubResource("StandardMaterial3D_2ieo8")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="Curve" id="Curve_2ieo8"]
+_data = [Vector2(0.11742423, 0.22881347), 0.0, 0.09223008, 0, 0, Vector2(0.498106, 0.11032927), 0.3851006, 0.3851006, 0, 0, Vector2(0.81249994, 0.077070594), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_2ieo8"]
+offsets = PackedFloat32Array(0, 0.2746781, 0.87982833)
+colors = PackedColorArray(0.84930354, 0.8493033, 0, 1, 0.8365126, 0.41233787, 3.85046e-07, 1, 0.70768523, 0.1491912, 0, 1)
+
+[node name="FireEffect" type="CPUParticles3D" unique_id=1275022920]
+cast_shadow = 0
+gi_mode = 0
+amount = 50
+lifetime = 0.5
+speed_scale = 0.5
+randomness = 1.0
+local_coords = true
+mesh = SubResource("BoxMesh_ebec5")
+direction = Vector3(0, 1, 0)
+spread = 25.0
+gravity = Vector3(0, 2.5, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.5
+scale_amount_curve = SubResource("Curve_2ieo8")
+color_ramp = SubResource("Gradient_2ieo8")

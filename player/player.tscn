@@ -1,16 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://p3ukmayya1la"]
+[gd_scene load_steps=19 format=3 uid="uid://p3ukmayya1la"]
 
 [ext_resource type="Script" uid="uid://r5oicny2wxqk" path="res://player/player.gd" id="1_player"]
 [ext_resource type="Script" uid="uid://dbxb4vj8pmxym" path="res://player/player_config.gd" id="2_2ieo8"]
-[ext_resource type="Script" uid="uid://ljwrinsy5gt2" path="res://player/camera.gd" id="2_camera"]
-[ext_resource type="Script" uid="uid://b2ky3hfqpsbea" path="res://player/hands.gd" id="3_hands"]
-[ext_resource type="Script" uid="uid://dvcaceokfgipr" path="res://player/hand.gd" id="4_hand"]
-[ext_resource type="Script" uid="uid://s3hb1iebi45d" path="res://player/state_machine.gd" id="5_statemachine"]
-[ext_resource type="Script" uid="uid://cq2klmln2pa55" path="res://player/states/idle_state.gd" id="6_idle"]
-[ext_resource type="Script" uid="uid://dev8jvl6744e1" path="res://player/states/moving_state.gd" id="7_moving"]
-[ext_resource type="Script" uid="uid://drwe32b75ieco" path="res://player/states/jumping_state.gd" id="8_jumping"]
-[ext_resource type="Script" uid="uid://ci52o6uoosnrr" path="res://player/states/falling_state.gd" id="9_falling"]
-[ext_resource type="Script" uid="uid://gxy88oqrog14" path="res://player/input_buffer.gd" id="10_inputbuffer"]
+[ext_resource type="Script" uid="uid://ljwrinsy5gt2" path="res://player/components/camera.gd" id="2_camera"]
+[ext_resource type="Script" uid="uid://b2ky3hfqpsbea" path="res://player/components/hands.gd" id="3_hands"]
+[ext_resource type="Script" uid="uid://dvcaceokfgipr" path="res://player/components/hand.gd" id="4_hand"]
+[ext_resource type="Script" uid="uid://s3hb1iebi45d" path="res://player/components/state_machine/state_machine.gd" id="5_statemachine"]
+[ext_resource type="Script" uid="uid://cq2klmln2pa55" path="res://player/components/state_machine/states/idle_state.gd" id="6_idle"]
+[ext_resource type="Script" uid="uid://dev8jvl6744e1" path="res://player/components/state_machine/states/moving_state.gd" id="7_moving"]
+[ext_resource type="Script" uid="uid://drwe32b75ieco" path="res://player/components/state_machine/states/jumping_state.gd" id="8_jumping"]
+[ext_resource type="Script" uid="uid://ci52o6uoosnrr" path="res://player/components/state_machine/states/falling_state.gd" id="9_falling"]
+[ext_resource type="Script" uid="uid://gxy88oqrog14" path="res://player/components/input_buffer.gd" id="10_inputbuffer"]
+[ext_resource type="Script" uid="uid://bjeqrs8socpn3" path="res://player/hud.gd" id="12_ebec5"]
 
 [sub_resource type="Resource" id="Resource_ebec5"]
 script = ExtResource("2_2ieo8")
@@ -18,6 +19,24 @@ metadata/_custom_type_script = "uid://dbxb4vj8pmxym"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6adnx"]
 height = 1.8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ieo8"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ebec5"]
+bg_color = Color(1, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yllr7"]
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kb6p2"]
+bg_color = Color(0, 0, 1, 1)
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="Player" type="CharacterBody3D" unique_id=1422290269]
 script = ExtResource("1_player")
@@ -32,20 +51,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 script = ExtResource("2_camera")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=849559250]
+fov = 90.0
+
+[node name="InteractRayCast" type="RayCast3D" parent="CameraPivot/Camera3D" unique_id=1486884547]
+target_position = Vector3(0, 0, -3)
 
 [node name="Hands" type="Node3D" parent="CameraPivot" unique_id=972826378]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20000005, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.75)
 script = ExtResource("3_hands")
 
 [node name="RightHand" type="Node3D" parent="CameraPivot/Hands" unique_id=146254102]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, -0.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0)
 script = ExtResource("4_hand")
 hand_name = "right_hand"
 
 [node name="LeftHand" type="Node3D" parent="CameraPivot/Hands" unique_id=81870409]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, -0.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 0)
 script = ExtResource("4_hand")
 hand_name = "left_hand"
+
+[node name="InputBuffer" type="Node" parent="." unique_id=1810664460]
+script = ExtResource("10_inputbuffer")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1360904602 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("5_statemachine")
@@ -63,5 +89,71 @@ script = ExtResource("8_jumping")
 [node name="FallingState" type="Node" parent="StateMachine" unique_id=1271287406]
 script = ExtResource("9_falling")
 
-[node name="InputBuffer" type="Node" parent="." unique_id=1810664460]
-script = ExtResource("10_inputbuffer")
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=233710411]
+follow_viewport_enabled = true
+
+[node name="UI" type="MarginContainer" parent="CanvasLayer" unique_id=560998820]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 60
+
+[node name="HUD" type="Control" parent="CanvasLayer/UI" unique_id=1950218542]
+layout_mode = 2
+script = ExtResource("12_ebec5")
+
+[node name="StatusContainer" type="VBoxContainer" parent="CanvasLayer/UI/HUD" unique_id=1138043185]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 0
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/UI/HUD/StatusContainer" unique_id=1108328116]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_2ieo8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ebec5")
+value = 50.0
+show_percentage = false
+
+[node name="HealthValue" type="Label" parent="CanvasLayer/UI/HUD/StatusContainer/HealthBar" unique_id=1277649149]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_right = 40.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="ManaBar" type="ProgressBar" parent="CanvasLayer/UI/HUD/StatusContainer" unique_id=1539660158]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_yllr7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_kb6p2")
+value = 50.0
+show_percentage = false
+
+[node name="ManaValue" type="Label" parent="CanvasLayer/UI/HUD/StatusContainer/ManaBar" unique_id=1501185597]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_right = 40.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="status_changed" from="." to="CanvasLayer/UI/HUD" method="_on_status_changed"]

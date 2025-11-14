@@ -27,8 +27,8 @@ func process_physics(delta: float) -> void:
 		state_machine.transition_to("IdleState")
 		return
 
-	# Check for jump input
-	if Input.is_action_just_pressed("jump"):
+	# Check for jump input (can't jump while crouching)
+	if Input.is_action_just_pressed("jump") and not player.is_crouching:
 		state_machine.transition_to("JumpingState")
 		return
 
